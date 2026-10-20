@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiago Meira | Personal Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #17181A;
+    --panel: #232427;
+    --panel-2: #1c1d1f;
+    --chalk: #F2F1ED;
+    --chalk-dim: #A7A6A1;
+    --yellow: #F4C10F;
+    --red: #C7361B;
+    --line: #343537;
+    --radius: 2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--chalk);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  .display{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.92;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--yellow); color:var(--black);}
+
+  /* hazard stripe divider */
+  .stripe{
+    height:10px;
+    background:repeating-linear-gradient(135deg, var(--yellow), var(--yellow) 14px, var(--black) 14px, var(--black) 28px);
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(23,24,26,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Anton', sans-serif;
+    font-size:22px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .logo span{color:var(--yellow);}
+  .nav-links{
+    display:flex; gap:36px;
+    font-size:14px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .nav-links a{
+    color:var(--chalk-dim);
+    transition:color .2s;
+    position:relative;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--chalk);}
+  .nav-cta{
+    background:var(--yellow); color:var(--black);
+    padding:11px 20px;
+    font-weight:800; font-size:13px;
+    text-transform:uppercase; letter-spacing:0.05em;
+    border-radius:var(--radius);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .nav-cta:hover{background:#ffd23f; transform:translateY(-1px);}
+  .burger{display:none;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--yellow);
+    outline-offset:3px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 72px;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(244,193,15,0.10), transparent 60%),
+      var(--black);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    pointer-events:none;
+  }
+  .hero-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--yellow);
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:20px; height:2px;
+    background:var(--yellow);
+  }
+  h1.hero-title{
+    font-size:clamp(48px, 6.4vw, 84px);
+    color:var(--chalk);
+  }
+  h1.hero-title .accent{color:var(--yellow);}
+  .hero-sub{
+    margin-top:24px;
+    font-size:18px; line-height:1.6;
+    color:var(--chalk-dim);
+    max-width:480px;
+  }
+  .hero-actions{
+    margin-top:36px;
+    display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 28px;
+    font-weight:800; font-size:14.5px;
+    text-transform:uppercase; letter-spacing:0.04em;
+    border-radius:var(--radius);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    border:none; cursor:pointer;
+    font-family:'Inter', sans-serif;
+  }
+  .btn-primary{
+    background:var(--yellow); color:var(--black);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(244,193,15,0.25);}
+  .btn-outline{
+    background:transparent; color:var(--chalk);
+    border:1.5px solid var(--line);
+  }
+  .btn-outline:hover{border-color:var(--chalk); transform:translateY(-2px);}
+
+  /* scoreboard clock — signature element */
+  .scoreboard{
+    position:relative;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.4);
+  }
+  .scoreboard-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    padding-bottom:16px;
+    border-bottom:1px dashed var(--line);
+    margin-bottom:20px;
+  }
+  .dot{width:7px; height:7px; border-radius:50%; background:var(--red); display:inline-block; margin-right:8px; animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.35;}}
+  .clock{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:54px; font-weight:600;
+    color:var(--yellow);
+    letter-spacing:0.02em;
+    text-align:center;
+    padding:10px 0 6px;
+  }
+  .clock-label{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin-bottom:22px;
+  }
+  .stat-row{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .stat{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    padding:14px 8px;
+    text-align:center;
+    border-radius:var(--radius);
+  }
+  .stat-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:24px; font-weight:600;
+    color:var(--chalk);
+  }
+  .stat-label{
+    font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin-top:4px;
+  }
+
+  /* ---------- SECTION LABEL SYSTEM ---------- */
+  section{padding:104px 0;}
+  .sec-label{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:52px;
+  }
+  .sec-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px; font-weight:600;
+    color:var(--yellow);
+    letter-spacing:0.1em;
+    white-space:nowrap;
+  }
+  .sec-rule{height:1px; background:var(--line); width:100%;}
+  .sec-title{
+    font-size:clamp(30px, 3.6vw, 46px);
+    color:var(--chalk);
+  }
+
+  /* ---------- AQUECIMENTO / ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .photo-slot{
+    aspect-ratio:4/5;
+    border-radius:var(--radius);
+    background:
+      linear-gradient(160deg, #2b2c2f 0%, #1a1b1d 100%);
+    border:1px dashed var(--line);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .photo-slot::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(45deg, rgba(244,193,15,0.05) 0 2px, transparent 2px 26px);
+  }
+  .photo-note{
+    position:relative; z-index:1;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    text-align:center; padding:0 24px;
+    line-height:1.7;
+  }
+  .about-copy p{
+    font-size:17px; line-height:1.75;
+    color:var(--chalk-dim);
+    margin-bottom:20px;
+  }
+  .about-copy p strong{color:var(--chalk); font-weight:700;}
+  .cred-list{
+    margin-top:32px;
+    display:grid; gap:14px;
+  }
+  .cred{
+    display:flex; align-items:center; gap:14px;
+    font-size:14.5px; color:var(--chalk);
+    font-weight:600;
+  }
+  .cred-mark{
+    width:26px; height:26px; flex:none;
+    background:var(--yellow);
+    color:var(--black);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700; font-size:13px;
+    border-radius:var(--radius);
+  }
+
+  /* ---------- TREINO / SERVICES ---------- */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .service-card{
+    background:var(--black);
+    padding:40px 32px;
+    transition:background .2s ease;
+  }
+  .service-card:hover{background:var(--panel-2);}
+  .service-index{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; color:var(--yellow);
+    margin-bottom:24px;
+  }
+  .service-card h3{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    font-size:24px;
+    margin-bottom:14px;
+    letter-spacing:0.01em;
+  }
+  .service-card p{
+    color:var(--chalk-dim);
+    font-size:15px; line-height:1.7;
+    margin-bottom:20px;
+  }
+  .service-tags{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .service-tags span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.04em;
+    color:var(--chalk-dim);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:var(--radius);
+  }
+
+  /* ---------- CARGA / PRICING ---------- */
+  .pricing-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .plan{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px 30px;
+    display:flex; flex-direction:column;
+    position:relative;
+  }
+  .plan.featured{
+    border-color:var(--yellow);
+    background:linear-gradient(180deg, rgba(244,193,15,0.07), var(--panel) 40%);
+  }
+  .plan-badge{
+    position:absolute; top:-13px; left:30px;
+    background:var(--yellow); color:var(--black);
+    font-size:11px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
+    padding:5px 12px;
+    border-radius:var(--radius);
+  }
+  .plan-name{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin-bottom:16px;
+  }
+  .plan-price{
+    font-family:'Anton', sans-serif;
+    font-size:44px;
+    color:var(--chalk);
+    margin-bottom:4px;
+  }
+  .plan-price span{
+    font-family:'Inter', sans-serif;
+    font-size:14px; font-weight:600;
+    color:var(--chalk-dim);
+    text-transform:none;
+  }
+  .plan-freq{
+    font-size:13px; color:var(--chalk-dim);
+    margin-bottom:28px;
+  }
+  .plan-features{
+    list-style:none;
+    display:grid; gap:13px;
+    margin-bottom:32px;
+    flex:1;
+  }
+  .plan-features li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:14.5px; color:var(--chalk-dim);
+    line-height:1.5;
+  }
+  .plan-features li::before{
+    content:"—";
+    color:var(--yellow); font-weight:700; flex:none;
+  }
+  .plan .btn{width:100%; justify-content:center;}
+
+  /* ---------- RESULTADOS / TESTIMONIALS ---------- */
+  .testi-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .testi{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px 28px;
+  }
+  .testi-quote{
+    font-size:16px; line-height:1.7;
+    color:var(--chalk);
+    margin-bottom:24px;
+  }
+  .testi-person{
+    display:flex; align-items:center; gap:12px;
+  }
+  .avatar{
+    width:42px; height:42px; border-radius:50%;
+    background:var(--panel-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Anton', sans-serif; color:var(--yellow); font-size:15px;
+    flex:none;
+  }
+  .testi-name{font-weight:700; font-size:14px;}
+  .testi-result{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; color:var(--yellow);
+    margin-top:2px;
+  }
+
+  /* ---------- CHAMADA / CONTACT ---------- */
+  .contact-section{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .whatsapp-box{
+    background:var(--black);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px;
+  }
+  .whatsapp-box h3{
+    font-family:'Anton', sans-serif;
+    font-size:26px; text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .whatsapp-box p{
+    color:var(--chalk-dim);
+    font-size:15px; line-height:1.7;
+    margin-bottom:26px;
+  }
+  .btn-whatsapp{
+    background:#25D366; color:#0a0a0a;
+    width:100%; justify-content:center;
+  }
+  .btn-whatsapp:hover{background:#2fe377; transform:translateY(-2px);}
+  form{display:grid; gap:16px;}
+  .field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin-bottom:8px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--chalk);
+    padding:13px 14px;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    border-radius:var(--radius);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--yellow);
+    outline-offset:1px;
+    border-color:var(--yellow);
+  }
+  .field textarea{resize:vertical; min-height:96px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:56px 0 40px;}
+  .footer-grid{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:24px;
+    padding-bottom:32px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:24px;
+  }
+  .foot-links{display:flex; gap:28px; font-size:13.5px; color:var(--chalk-dim);}
+  .foot-links a:hover{color:var(--chalk);}
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:12.5px; color:var(--chalk-dim);
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .nav-links{display:none;}
+    .hero-grid, .about-grid, .contact-grid{grid-template-columns:1fr;}
+    .services-grid, .pricing-grid, .testi-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    section{padding:72px 0;}
+    .hero{padding:64px 0 48px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">THIAGO<span>.</span>MEIRA</div>
+    <div class="nav-links">
+      <a href="#sobre">Aquecimento</a>
+      <a href="#servicos">Treino</a>
+      <a href="#planos">Carga</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#contato">Chamada</a>
+    </div>
+    <a class="nav-cta" href="#contato">Quero treinar</a>
+  </nav>
+</header>
+
+<div class="stripe"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Personal Trainer · Hipertrofia & Alta Performance</div>
+      <h1 class="hero-title display">Seu treino<br>com <span class="accent">método</span>,<br>não com sorte.</h1>
+      <p class="hero-sub">Hipertrofia, emagrecimento e performance com acompanhamento individual — presencial em Curitiba ou consultoria online para qualquer lugar do Brasil.</p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn btn-primary">Marcar avaliação gratuita</a>
+        <a href="#servicos" class="btn btn-outline">Ver como funciona</a>
+      </div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="scoreboard-head">
+        <span><span class="dot"></span>Sessão em andamento</span>
+        <span>SUN 06.09</span>
+      </div>
+      <div class="clock mono" id="clock">00:00</div>
+      <div class="clock-label">Tempo desde o seu último treino. Bora?</div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">120+</div>
+          <div class="stat-label">Alunos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Anos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.9</div>
+          <div class="stat-label">Avaliação</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AQUECIMENTO / ABOUT -->
+<section id="sobre">
+  <div class="wrap">
+    <div class="sec-label">
+      <span class="sec-tag mono">01 · AQUECIMENTO</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="about-grid">
+      <div class="photo-slot">
+        <div class="photo-note">FOTO DO THIAGO<br>(substituir por imagem real —<br>sugestão: foto em pé, academia, boa luz)</div>
+      </div>
+      <div class="about-copy">
+        <h2 class="sec-title" style="margin-bottom:24px;">Quem te acompanha na jornada</h2>
+        <p><strong>Thiago Meira</strong> é personal trainer formado em Educação Física, com Pós graduação em Nutrição Esportiva e hipertrofia e Biomecânica, com sessões presenciais em Curitiba e consultoria online para alunos em qualquer cidade.</p>
+        <p>O trabalho começa antes do treino: entender rotina, histórico, limitações e objetivo real de cada aluno para montar um plano que cabe na vida da pessoa — não o contrário.</p>
+        <p>Nada de treino genérico copiado de app. Cada ciclo é ajustado com base na sua evolução, com acompanhamento próximo e ajustes constantes.</p>
+        <div class="cred-list">
+          <div class="cred"><span class="cred-mark">✓</span> CREF Ativo</div>
+          <div class="cred"><span class="cred-mark">✓</span> Especialização em Hipertrofia e Emagrecimento</div>
+          <div class="cred"><span class="cred-mark">✓</span> Atendimento presencial (CURITIBA) e online (Brasil)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TREINO / SERVICES -->
+<section id="servicos" style="background:var(--panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">
+      <span class="sec-tag mono">02 · TREINO</span>
+      <span class="sec-rule"></span>
+    </div>
+    <h2 class="sec-title" style="margin-bottom:52px;">Como a gente trabalha</h2>
+  </div>
+  <div class="wrap" style="padding:0;">
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-index mono">A</div>
+        <h3>Presencial CURITIBA</h3>
+        <p>Treino individual acompanhado de perto, execução corrigida em tempo real e ajuste de carga sessão a sessão.</p>
+        <div class="service-tags"><span>1x a 5x/semana</span><span>Curitiba e Região Metropolitana</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-index mono">B</div>
+        <h3>Consultoria Online</h3>
+        <p>Planilha de treino personalizada, app de acompanhamento, check-ins periódicos e suporte direto pelo WhatsApp.</p>
+        <div class="service-tags"><span>Qualquer cidade</span><span>Check-in quinzenal</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-index mono">C</div>
+        <h3>Avaliação física</h3>
+        <p>Diagnóstico completo de composição corporal, mobilidade e histórico para montar o ponto de partida certo.</p>
+        <div class="service-tags"><span>Ponto de partida</span><span>Reavaliação mensal</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARGA / PRICING -->
+<section id="planos">
+  <div class="wrap">
+    <div class="sec-label">
+      <span class="sec-tag mono">03 · CARGA</span>
+      <span class="sec-rule"></span>
+    </div>
+    <h2 class="sec-title" style="margin-bottom:52px;">Planos</h2>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name mono">AVULSO ACOMPANHAMENTO PRESENCIAL</div>
+        <div class="plan-price">R$ 510,00<span>/mes</span></div>
+        <div class="plan-freq">Valores por hora aula conforme frequência semanal </div>
+        <ul class="plan-features">
+          <li>1x por semana - R$100/aula </li>
+          <li>2x por semana - R$95/aula</li>
+          <li>4x por semana - R$90/aula</li>
+          <li>6x por semana - R$85/aula</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline">Escolher plano</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">Mais procurado</div>
+        <div class="plan-name mono">PACOTE MENSAL COM ACESSO AO APLICATIVO MFIT + ACOMPANHAMENTO PRESENCIAL E ONLINE</div>
+        <div class="plan-price">R$ 400<span>/mês</span></div>
+        <div class="plan-freq">3 sessões por semana · CURITIBA</div>
+        <ul class="plan-features">
+          <li>1x por semana (4 aulas/mês) - R$400</li>
+          <li>2x por semana (8 aulas/mês) - R$760</li>
+          <li>4x por semana (16 aulas/mês) - R$1,440</li>
+          <li>6x por semana (24 aulas/mês) - R$2,040</li>
+        </ul>
+        <a href="#contato" class="btn btn-primary">Escolher plano</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name mono">ACOMPANHAMENTO DE CORRIDA PRESENCIAL </div>
+        <div class="plan-price">R$ 400<span>/mês</span></div>
+        <div class="plan-freq">Focado na evolução  da corrida com treinos presenciais</div>
+        <div class="plan-freq">Plano Basic acompanhamento 1x por semana </div>
+        <ul class="plan-features">
+          <li>Treino personalizado através de aplicativo e avaliações</li>
+          <li>Ajuste periódico de treinamento</li>
+          <li>Suporte para duvidas via WhatsApp</li>
+          <li>1 Sessão presencial por semana</li>
+          <li>Corrida junto e orientada ao ar livre</li>
+          <li>Correções técnicas dos exercícios</li>
+          <li>Avaliação da evolução do aluno</li>
+          <li>Treino via aplicativo incluso</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline">Escolher plano</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name mono">ACOMPANHAMENTO DE CORRIDA FUTURO ATLETA</div>
+        <div class="plan-price">R$ 720,90<span>/mês</span></div>
+        <div class="plan-freq">Plano Premium acompanhamento 2x por semana</div>
+        <ul class="plan-features">
+          <li>Treino personalizado através de aplicativo e avaliações</li>
+          <li>Atualizações e ajustes frequentes</li>
+          <li>Soporte via WhatsApp</li>
+          <li>Duas sessões presenciais por semana</li>
+          <li>Corrida e Dieta orientada</li>
+          <li>Treinos ao ar livre com acompanhamento</li>
+          <li>Correção de postura durante a corrida e execução</li>
+          <li>Monitoramento mais próximo dos resultados</li>
+          <li>Treino via aplicativo incluso</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline">Escolher plano</a>
+      </div>
+      <div class="plan">
+       <div class="plan-name mono">Consultoria Online + Corrida</div>
+        <div class="plan-price">R$ 189,90<span>/mês</span></div>
+        <div class="plan-freq">Treino completo com foco em musculação e corrida:</div>
+        <ul class="plan-features">
+          <li>Planilha semanal de corrida personalizada</li>
+          <li>Ajustes e evolução contínua</li>
+          <li>Renovação mensal dos treinos</li>
+          <li>Consultoria online</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline">Escolher plano</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name mono">Consultoria Online</div>
+        <div class="plan-price">R$ 139,90<span>/mês</span></div>
+        <div class="plan-freq">Planos com renovação mensal de treinos + acompanhamento 100% online</div>
+        <ul class="plan-features">
+          <li>Acompanhamento</li>
+          <li>Periodização avançada</li>
+          <li>Avaliação física quinzenal</li>
+          <li>Prioridade de horário</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline">Escolher plano</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS / TESTIMONIALS -->
+<section id="resultados" style="background:var(--panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">
+      <span class="sec-tag mono">04 · RESULTADOS</span>
+      <span class="sec-rule"></span>
+    </div>
+    <h2 class="sec-title" style="margin-bottom:52px;">Quem treina, fala</h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <p class="testi-quote">"Troquei treino genérico por acompanhamento de verdade. Em 4 meses vi mais resultado do que em 2 anos treinando sozinha."</p>
+        <div class="testi-person">
+          <div class="avatar">M</div>
+          <div>
+            <div class="testi-name">Mariana C.</div>
+            <div class="testi-result mono">-8kg · 4 meses</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <p class="testi-quote">"A consultoria online funciona mesmo. Os check-ins me mantêm no compromisso mesmo treinando sozinho na academia daqui."</p>
+        <div class="testi-person">
+          <div class="avatar">R</div>
+          <div>
+            <div class="testi-name">Rafael S.</div>
+            <div class="testi-result mono">Online · 7 meses</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <p class="testi-quote">"Comecei sem nunca ter pego peso. Hoje treino com confiança e sem dor nenhuma nas costas."</p>
+        <div class="testi-person">
+          <div class="avatar">J</div>
+          <div>
+            <div class="testi-name">Julia P.</div>
+            <div class="testi-result mono">Presencial · 1 ano</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAMADA / CONTACT -->
+<section id="contato" class="contact-section">
+  <div class="wrap">
+    <div class="sec-label">
+      <span class="sec-tag mono">05 · CHAMADA</span>
+      <span class="sec-rule"></span>
+    </div>
+    <h2 class="sec-title" style="margin-bottom:52px;">Bora marcar sua avaliação</h2>
+    <div class="contact-grid">
+      <div class="whatsapp-box">
+        <h3>Fala direto comigo</h3>
+        <p>Chama no WhatsApp pra tirar dúvidas sobre planos, horários e disponibilidade. Resposta rápida, sem enrolação.</p>
+        <a class="btn btn-whatsapp" href="https://wa.me/5541987753323?text=Oi%20Thiago!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20treinos." target="_blank" rel="noopener">
+          Chamar no WhatsApp
+        </a>
+      </div>
+      <form>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" placeholder="Seu nome">
+          </div>
+          <div class="field">
+            <label for="phone">Telefone</label>
+            <input type="tel" id="phone" name="phone" placeholder="(41) 9 0000-0000">
+          </div>
+        </div>
+        <div class="field">
+          <label for="modalidade">Modalidade de interesse</label>
+          <select id="modalidade" name="modalidade">
+            <option>Presencial (CURITIBA)</option>
+            <option>Consultoria Online</option>
+            <option>Ainda não sei</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Objetivo</label>
+          <textarea id="msg" name="msg" placeholder="Conta rapidamente o que você quer alcançar..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-content:center;">Enviar mensagem</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="logo">THIAGO<span>.</span>MEIRA</div>
+      <div class="foot-links">
+        <a href="#sobre">Aquecimento</a>
+        <a href="#servicos">Treino</a>
+        <a href="#planos">Carga</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#contato">Chamada</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Thiago Meira Personal Trainer·</span>
+      <span>Curitiba, Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Signature scoreboard clock: counts up as a "time since last session" ticker
+  let seconds = 3 * 3600 + 47 * 60 + 12; // starting placeholder duration
+  const clockEl = document.getElementById('clock');
+  function formatClock(totalSeconds){
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    const pad = n => String(n).padStart(2,'0');
+    return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+  }
+  function tick(){
+    seconds++;
+    clockEl.textContent = formatClock(seconds);
+  }
+  clockEl.textContent = formatClock(seconds);
+  setInterval(tick, 1000);
+
+  // Prevent actual form submission (no backend wired yet)
+  const contactForm = document.querySelector('#contato form');
+  if(contactForm){
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Formulário de exemplo — conecte a um serviço de e-mail ou backend para receber as mensagens.');
+    });
+  }
+</script>
+
+</body>
+</html>
